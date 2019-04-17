@@ -58,16 +58,20 @@
 4.此时服务器准备就绪，等待客户端发起HTTP请求进行处理。
 
 ### 服务端接收HTTP请求
-1.服务器启动后，当HTTP请求到来时，HttpdServer对象调用accept函数接收HTTP请求，将HTTP请求封装成任务(t.SetTask(sock_,Entry::HandlerRequest))，放入任务队列中，同时唤醒一个线程来处理任务，调用ProtocolUtil.hpp中Entry::HandlerRequest来处理任务。
+1.服务器启动后，当 HTTP 请求到来时，HttpdServer 对象调用 accept 函数接收 HTTP 请求，将 HTTP 请求封装成任务(t.SetTask(sock_,Entry::HandlerRequest))，放入任务队列中，同时唤醒一个线程来处理任务，调用 ProtocolUtil.hpp中Entry::HandlerRequest 来处理任务。
 
-2.HandlerRequest对HTTP请求进行解析，调用RecvOneLine接收请求行，将所有的"\n","\r\n","\r"都转换为\n。(因为在不同的环境下换行的表示方法不一样，所以将不同环境下的换行都转换为"\n"，保持统一)。
+2.HandlerRequest 对 HTTP 请求进行解析，调用 RecvOneLine 接收请求行，将所有的"\n","\r\n","\r"都转换为 \n。(因为在不同的环境下换行的表示方法不一样，所以将不同环境下的换行都转换为"\n"，保持统一)。
 
-3.将接收的一行依次写入 method 、 uri 、 version中。(ss >> method >> uri >> version)。
+Unix系统里，每行结尾只有“<换行>”，即“\n”；Windows系统里面，每行结尾是“<回车><换行>”，即“\r\n”；Mac系统里，每行结尾是“<回车>”。一个直接后果是，Unix/Mac系统下的文件在Windows里打开的话，所有文字会变成一行；而Windows里的文件在Unix/Mac下打开的话，在每行的结尾可能会多出一个符号^M（在Unix下多出一个\r，在Mac下多出一个\n）。
 
-4.判断 method 、 path 是否合法，调用 IsMethodLegal 判断请求方法是否正确，不正确返回错误码。然后调用 UriParse 函数对URL进行解析，如果为 GET 方法，则 URL 以?为分隔，左边为资源路径，右边为参数；如果为POST方法，直接将URL设置为资源路径。
+3.使用stringstream将接收的一行依次写入 method 、 uri 、 version 中。(ss >> method >> uri >> version)。
 
-5.提取出资源路径后，调用IsPathLegal判断资源路径是否合法，同时判断是否为CGI请求。
+4.判断 method 、 path 是否合法，调用 IsMethodLegal 判断请求方法是否正确(strcasecmp函数)，不正确返回错误码。然后调用 UriParse 函数对URL进行解析，如果为 GET 方法，则 URL 以?为分隔，左边为资源路径，右边为参数；如果为POST方法，直接将URL设置为资源路径。(这里如果找不到URL，j即path中不含参数，则将主页返回给用户，这里的主页设置为个人在线简历)
 
-6.此时调用RecvRequestHead ，接收请求报头，并以"\n" 为分隔，对substr的每行调用 MAKE_KV 将请求报头的信息，放入unordered_map<std::string,std::string>中，此时 kv 是key,value的数据词典，存储的是content-type、content-length等报头信息。
+5.检查path合法性,资源不存在将状态码code记录为404,并跳转至end。
 
-7.通过IsNeedRecvText函数，判断请求方法是否为POST来判断是否需要接收请求正文，然后将请求正文放入text中，到这里服务器完成对HTTP请求的处理。
+7.提取出资源路径后，调用IsPathLegal判断资源路径是否合法(stat函数，获取指定文件的相关信息，并将其写入buf所指向的区域)，同时判断是否为CGI请求。
+
+8.此时调用RecvRequestHead ，接收请求报头，并以"\n" 为分隔，对 substr 的每行调用 MAKE_KV 将请求报头的信息，放入unordered_map<std::string,std::string>中，此时 kv 是 key,value 的数据词典，存储的是 content-type 、content-length 等报头信息。
+
+9.通过IsNeedRecvText函数，判断请求方法是否为POST来判断是否需要接收请求正文，然后将请求正文放入text中，到这里服务器完成对HTTP请求的处理。
