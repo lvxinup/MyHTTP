@@ -208,7 +208,7 @@ class Request
 				bool IsMethodLegal()
 				{
 						if(strcasecmp(method.c_str(),"GET") == 0 ||\
-										(cgi = (strcasecmp(method.c_str(),"POST"))) == 0){
+										(cgi = (strcasecmp(method.c_str(),"POST") == 0))){
 								return true;
 						}
 
@@ -362,6 +362,7 @@ class Connect{
 						{
 								recv(sock,&c_,1,0);
 								text_.push_back(c_);
+                i_++;
 						}	
 
 						param_ = text_ ;
@@ -430,15 +431,15 @@ class Entry{
 								close(input[1]);
 								close(output[0]);
 
-								const std::string &path_ = rq_->GetPath();
+								const std::string &path_ = rq_->GetPath();	//获取路径
 
-								std::string cl_env_ ="Content-Length=";
+								std::string cl_env_ ="Content-Length=";	//环境变量
 								cl_env_ += ProtocolUtil::IntToString(param_.size());
-								putenv((char*)cl_env_.c_str());
+								putenv((char*)cl_env_.c_str());	//导出环境变量
 
 								dup2(input[0],0);
 								dup2(output[1],1);
-								execl(path_.c_str(),path_.c_str(),NULL);
+								execl(path_.c_str(),path_.c_str(),NULL);	//执行谁	怎么执行
 								exit(1);
 						}
 						else
@@ -447,12 +448,12 @@ class Entry{
 								close(output[1]);
 
 								size_t size_ = param_.size();
-								size_t total_ = 0;
-								size_t curr_ = 0;
+								size_t total_ = 0;//期望写入
+								size_t curr_ = 0;//实际写入
 								const char *p_ = param_.c_str();
 								while(total_ < size_ &&\
 												(curr_ = write(input[1],p_ + total_,size_ - total_))>0)
-								{
+								{//写入所有参数
 										total_ += curr_;
 								}
 								
@@ -473,7 +474,7 @@ class Entry{
 								conn_->SendResponse(rsp_,rq_,true);
 						}
 				}
-				static int PorcessResponse(Connect *&conn_,Request *&rq_,Response *&rsp_)
+				static int ProcessResponse(Connect *&conn_,Request *&rq_,Response *&rsp_)
 				{
 					if(rq_->IsCgi())
 					{
@@ -556,8 +557,7 @@ class Entry{
 							conn_->RecvRequestText(rq_->rq_text,rq_->GetContentLength(),rq_->GetParam());
 						}
 						//request recv done!
-						PorcessResponse(conn_,rq_,rsp_);
-
+						ProcessResponse(conn_,rq_,rsp_);
 end:
 						if(code_ != OK){
 							HandlerError(conn_,rq_,rsp_);

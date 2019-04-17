@@ -1,35 +1,11 @@
-项目名称
-----------------------------
-基于HTTP服务器的小型计算器
+# games 游戏
 
-项目目标
---------------------------------------
-服务器能接收到客户端的请求，并根据客户的请求做出响应。
+自己练手写的一些小游戏
 
-技术特点
---------------------------------------
-1.根据请求方式GET / POST，根据请求资源的路径，返回相应的资源进行处理。
+1.仿经典windows扫雷。2016年1月。 https://github.com/liusaint/games/tree/master/mine
 
-2.根据用户请求的网址给出对应的界面，如起始页，计算器页。
+2.九宫格数独游戏。生成数独算法。2016年4月。https://github.com/liusaint/games/tree/master/soduku
 
-3.根据用输入的请求方式，在请求报头/请求正文中获取参数，进行计算返回给用户。
+3.简易贪吃蛇。2016年1月。https://github.com/liusaint/games/tree/master/snake
 
-4.使用线程池技术，提高了服务器的并发性。
-
-5.后期将会将简历作为服务器主页，目前主页为简历模板。
-
-
-提示：运行服务器前要切换到根模式下关闭防火墙
---------------------------------------
-
-
-
-效果图
---------------------------------------
-
-
-
-![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114001.png)
-![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114011.png)
-![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114016.png)
-![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114020.png)
+4.2048游戏。2016年5月。https://github.com/liusaint/games/tree/master/2048

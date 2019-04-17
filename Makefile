@@ -2,17 +2,26 @@ bin=HttpdServer
 cc=g++
 
 .PHONY:all
-all:HttpdServer cgi
+all:HttpdServer cgi 
 
 HttpdServer:
 	g++ -o HttpdServer HttpdServer.cc -std=c++11 -lpthread
 
+.PHONY:cgi
 cgi:
 	g++ -o Cal Cal.cc
 
+.PHONY:three_game
+three_game:
+	g++ -o three_game three_game.c
+
+.PHONY:mine_clearance
+mine_clearance:
+	g++ -o mine_clearance mine_clearance.c
+
 .PHONY:clean
 clean:
-	rm -f HttpdServer Cal output
+	rm -rf HttpdServer Cal output
 
 .PHONY:output
 output:
