@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-# games 游戏
-
-自己练手写的一些小游戏
-
-1.仿经典windows扫雷。2016年1月。 https://github.com/liusaint/games/tree/master/mine
-
-2.九宫格数独游戏。生成数独算法。2016年4月。https://github.com/liusaint/games/tree/master/soduku
-
-3.简易贪吃蛇。2016年1月。https://github.com/liusaint/games/tree/master/snake
-
-4.2048游戏。2016年5月。https://github.com/liusaint/games/tree/master/2048
-=======
 项目名称
 ----------------------------
 9934小游戏-在线游戏平台
@@ -42,8 +29,9 @@
 运行结果
 ![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114001.png)
 在线简历
-![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114011.png)
-![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114016.png)
+![](https://github.com/lvxinup/MyHTTP/blob/master/%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF.png)
+![](htthttps://github.com/lvxinup/MyHTTP/blob/master/%E4%B8%93%E4%B8%9A%E6%8A%80%E8%83%BD.png)
+![](https://github.com/lvxinup/MyHTTP/blob/master/%E9%A1%B9%E7%9B%AE%E7%BB%8F%E9%AA%8C.png)
 计算器
 ![](https://github.com/lvxinup/githttp/blob/master/QQ%E5%9B%BE%E7%89%8720190316114020.png)
 2048游戏
@@ -117,4 +105,3 @@ Unix系统里，每行结尾只有“<换行>”，即“\n”；Windows系统�
 
 4. 发送时调用 send 依次向对端 socket 发送首行,报头,空行,正文,正文的长度用 resource_size 控制.
 
->>>>>>> c9d641e1296f6e0508dd50fad124a05bfd65a41e
